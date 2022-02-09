@@ -1,0 +1,1 @@
+start "" "C:\Users\HP\AppData\Local\Programs\Python\Python39\python.exe" "C:\Users\HP\PycharmProjects\Autoplaylist Main Mix\autoplaylist.py
