@@ -72,7 +72,7 @@ def description_update():
                            + ', ' + uptime.strftime('%I') + ':' + uptime.strftime('%M') + ' ' + uptime.strftime('%p'))
     track_src = 'Track source: RP Main Mix'
     playlist_description = str(last_update_time)
-    print(playlist_description)
+    # print(playlist_description)
     return playlist_description
 
 
