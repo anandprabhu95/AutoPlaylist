@@ -8,16 +8,19 @@ import datetime
 
 playlist_id = '1pk6JmatgEFQKDGY0cOMPw'
 
+
 def authorize():
     scope = 'playlist-modify-public'
     username = '21wrhzneviibcick6tnquhp4i'
     token = SpotifyOAuth(scope=scope, username=username)
     return token
 
+
 def setup_data():
     response = urllib.request.urlopen("http://www2.radioparadise.com/rp3-mx.php?n=Playlist")
     data = response.read()
     return data
+
 
 def song_list(content):
     soup = BeautifulSoup(content, 'lxml')
@@ -33,6 +36,7 @@ def song_list(content):
     list_of_songs = list(reversed(list_of_songs))
     list_of_songs = list_of_songs[4:]
     return list_of_songs
+
 
 # Find Songs
 def find_and_add_songs(playlistid):
@@ -54,6 +58,7 @@ def find_and_add_songs(playlistid):
     spotifyObject.playlist_change_details(playlist_id=playlist_id, name='AutoPlaylist: Main Mix',
                                           description=description_update())
 
+
 # Remove all songs from the playlist
 def remove_all_songs(playlistid):
     remove_track_result = spotifyObject.playlist_tracks(playlist_id=playlistid)
@@ -65,6 +70,7 @@ def remove_all_songs(playlistid):
     spotifyObject.playlist_remove_all_occurrences_of_items(playlist_id=playlistid,
                                                            items=remove_track_id)
     return remove_track_id
+
 
 def description_update():
     uptime = datetime.datetime.now()
