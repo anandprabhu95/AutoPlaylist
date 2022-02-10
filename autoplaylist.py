@@ -18,8 +18,8 @@ def authorize():
 
 def setup_data():
     response = urllib.request.urlopen("http://www2.radioparadise.com/rp3-mx.php?n=Playlist")
-    data = response.read()
-    return data
+    content = response.read()
+    return content
 
 
 def song_list(content):
