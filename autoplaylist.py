@@ -46,12 +46,8 @@ def find_and_add_songs(playlistid):
     for song in list_of_songs:
         result = spotifyObject.search(q=song, market='US')
         # print(json.dumps(result, sort_keys=4, indent=4))
-        if result['tracks']['total'] == 0:
-            pass
-        else:
-            if result['tracks']['items'][0]['uri'] in remove_track_id:
-                pass
-            else:
+        if result['tracks']['total'] != 0:
+            if result['tracks']['items'][0]['uri'] not in remove_track_id:
                 if result['tracks']['items'][0]['artists'][0]['name'] in song:
                     result_list.append(result['tracks']['items'][0]['uri'])
     spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
