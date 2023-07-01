@@ -6,7 +6,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import re
 import datetime
 
-playlist_id = '1pk6JmatgEFQKDGY0cOMPw'
+playlist_id = '4MJfYVRoxlktoywadMIm0t'
 
 
 def authorize():
@@ -21,8 +21,6 @@ def setup_data():
     content = response.read()
     return content
 
-
-def song_list(content):
     soup = BeautifulSoup(content, 'lxml')
     # print(soup.prettify())
     list_of_songs = []
