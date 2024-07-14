@@ -5,13 +5,14 @@ from spotipy.oauth2 import SpotifyOAuth
 import json
 import re
 import datetime
+import os
 
 
 def authorize():
     # Authenticate spotify credentials
     # Note: Save you credentials as environment variables
     scope = 'playlist-modify-public'
-    username = '21wrhzneviibcick6tnquhp4i'
+    username = os.environ.get('YOUR_PLAYLIST_ID')
     token = SpotifyOAuth(scope=scope, username=username)
     return token
 
