@@ -88,8 +88,8 @@ def description_update():
     uptime = datetime.datetime.now()
     last_update_time = str('Last updated: ' + uptime.strftime('%b') + ' ' + uptime.strftime('%d')
                            + ', ' + uptime.strftime('%I') + ':' + uptime.strftime('%M') + ' ' + uptime.strftime('%p'))
-    track_src = 'sqlupd'
-    playlist_description = str(last_update_time)
+    track_src = 'Track Source: Radio Paradise: Main Mix'
+    playlist_description = str(last_update_time + '; ' + track_src)
     return playlist_description
 
 print('Running autoplaylist.py')
