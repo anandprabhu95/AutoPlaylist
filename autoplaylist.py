@@ -62,7 +62,7 @@ def find_and_add_songs(playlistid):
                     
     # Add new songs and update description
     spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
-    spotifyObject.playlist_change_details(playlist_id=playlist_id, name='Rpi4test',
+    spotifyObject.playlist_change_details(playlist_id=playlist_id, name='Autoplaylist: RP Main Mix',
                                           description=description_update())
 
 
