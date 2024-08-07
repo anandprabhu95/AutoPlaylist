@@ -62,8 +62,6 @@ def find_and_add_songs(playlistid):
                     
     # Add new songs and update description
     spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
-    spotifyObject.playlist_change_details(playlist_id=playlist_id, name='Autoplaylist: RP Main Mix',
-                                          description=description_update())
 
 
 
@@ -79,19 +77,21 @@ def remove_all_songs(playlistid):
         remove_track_id.append(remove_track)
         
     # Remove songs from playlist
-    spotifyObject.playlist_remove_all_occurrences_of_items(playlist_id=playlistid,
-                                                           items=remove_track_id)
+    if len(remove_track_id) > 0:
+        spotifyObject.playlist_remove_all_occurrences_of_items(playlist_id=playlistid,
+                                                               items=remove_track_id)
     return remove_track_id
 
 
-def description_update():
+def description_update(playlist_id):
     # Adds the last playlist update time to the playlist description
     uptime = datetime.datetime.now()
     last_update_time = str('Last updated: ' + uptime.strftime('%b') + ' ' + uptime.strftime('%d')
                            + ', ' + uptime.strftime('%I') + ':' + uptime.strftime('%M') + ' ' + uptime.strftime('%p'))
     track_src = 'Track Source: Radio Paradise: Main Mix'
     playlist_description = str(last_update_time + '; ' + track_src)
-    return playlist_description
+    spotifyObject.playlist_change_details(playlist_id=playlist_id, name='Autoplaylist: RP Main Mix',
+                                          description=playlist_description)
 
 print('Running autoplaylist.py')
 playlist_id = '6bgghJZjZNNNhyIMPy1mD6'
@@ -99,4 +99,5 @@ print('Authenticating Spotify credentials ...')
 spotifyObject = spotipy.Spotify(auth_manager=authorize())
 print('Updating playlist')
 find_and_add_songs(playlist_id)
+description_update(playlist_id)
 print('Done.')
