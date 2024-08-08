@@ -6,6 +6,7 @@ import json
 import re
 import datetime
 import os
+import time
 
 
 def authorize():
@@ -60,16 +61,32 @@ def find_and_add_songs(playlistid):
                 if result['tracks']['items'][0]['artists'][0]['name'] in song:
                     result_list.append(result['tracks']['items'][0]['uri'])
     
-    print('Found ' + str(len(result_list)) + ' out of ' + str(len(list_of_songs)) + ' songs.')
-     
+    #print('Found ' + str(len(result_list)) + ' out of ' + str(len(list_of_songs)) + ' songs.')
+    
     if len(result_list) > 0:
         # Add new songs and update description
         spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
+        
+        time.sleep(2)
+        
+        # Check update
+        current_tracks = spotifyObject.playlist_tracks(playlist_id=playlistid)
+        
+        if current_tracks['total'] == len(result_list):
+            update_log('Update successful. Added ' + str(current_tracks['total']) + ' new songs.')
+        elif current_tracks['total'] < len(result_list) and current_tracks['total'] > 0:
+            update_log('Update successful. Added ' + str(current_tracks['total']) 
+            + ' out of ' + str(len(result_list)) + ' songs.')
+        elif current_tracks['total'] == 0:
+            update_log('Update failed.')
+        else:
+            update_log('Unknown: current_tracks > result_list')
     else:
         # Rick roll the playlist
         rick_list = []
         rick_list.append('spotify:track:4PTG3Z6ehGkBFwjybzWkR8')
         spotifyObject.playlist_add_items(playlist_id=playlistid, items=rick_list)
+        update_log("Rickroll.")
 
 
 def remove_all_songs(playlistid):
@@ -100,6 +117,13 @@ def description_update(playlist_id):
     spotifyObject.playlist_change_details(playlist_id=playlist_id, name='Autoplaylist: RP Main Mix',
                                           description=playlist_description)
 
+def update_log(text):
+    logtime = datetime.datetime.now()
+    log = str(logtime.strftime('%m/%d/%Y, %H:%M:%S') + ' ' + text + '\n')
+    with open("updatelog.txt", "a") as myfile:
+        myfile.write(log)
+    
+    
 print('Running autoplaylist.py')
 playlist_id = '6bgghJZjZNNNhyIMPy1mD6'
 print('Authenticating Spotify credentials ...') 
