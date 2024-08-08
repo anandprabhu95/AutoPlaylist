@@ -59,10 +59,17 @@ def find_and_add_songs(playlistid):
             if result['tracks']['items'][0]['uri'] not in remove_track_id:
                 if result['tracks']['items'][0]['artists'][0]['name'] in song:
                     result_list.append(result['tracks']['items'][0]['uri'])
-                    
-    # Add new songs and update description
-    spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
-
+    
+    print('Found ' + str(len(result_list)) + ' out of ' + str(len(list_of_songs)) + ' songs.')
+     
+    if len(result_list) > 0:
+        # Add new songs and update description
+        spotifyObject.playlist_add_items(playlist_id=playlistid, items=result_list)
+    else:
+        # Rick roll the playlist
+        rick_list = []
+        rick_list.append('spotify:track:4PTG3Z6ehGkBFwjybzWkR8')
+        spotifyObject.playlist_add_items(playlist_id=playlistid, items=rick_list)
 
 
 def remove_all_songs(playlistid):
