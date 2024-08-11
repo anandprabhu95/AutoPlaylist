@@ -11,7 +11,8 @@ echo Exporting spotify credentials as environment variables
 export SPOTIPY_CLIENT_ID='your client id'
 export SPOTIPY_CLIENT_SECRET='your client secret key'
 export SPOTIPY_REDIRECT_URI=http://localhost:8000/callback/
-export YOUR_PLAYLIST_ID='your playlist id'
+export SPOTIFY_USERNAME='your spotify username'
+export PLAYLIST_ID='your playlist id'
 ```
 4) Create a cronjob that runs ```jobs.sh``` every hour like this
    ```0 * * * * $path_to_Autoplaylist/jobs.sh > $path_to_Autoplaylist/log.txt```

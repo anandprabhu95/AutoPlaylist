@@ -12,10 +12,23 @@ import time
 def authorize():
     # Authenticate spotify credentials
     # Note: Save you credentials as environment variables
-    scope = 'playlist-modify-public'
-    username = os.environ.get('YOUR_PLAYLIST_ID')
-    token = SpotifyOAuth(scope=scope, username=username)
+    scope = 'user-read-private playlist-modify-public'
+    username = os.environ.get('SPOTIFY_USERNAME')
+    client_id = os.environ.get('SPOTIPY_CLIENT_ID')
+    client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
+    redirect_uri = os.environ.get('SPOTIPY_REDIRECT_URI')
+    print(str(username) + str(client_secret))
+    
+    delete_cached_token(username)
+    token = SpotifyOAuth(client_id, client_secret, redirect_uri, scope=scope, username=username)
     return token
+    
+
+def delete_cached_token(username):
+    if os.path.exists(os.getcwd()+'.cache'):
+        os.remove(".cache")
+    if os.path.exists(os.getcwd()+'.cache-'+str(username)):
+        os.remove(".cache-"+str(username))
 
 
 def setup_data():
@@ -54,7 +67,8 @@ def find_and_add_songs(playlistid):
     
     # Ensure the new song list does not have any old removed songs from previous playlist update
     for song in list_of_songs:
-        result = spotifyObject.search(q=song, market='US')
+        time.sleep(0.1)
+        result = spotifyObject.search(q=song, limit=5, offset=0, type='track', market='US')
         #print(json.dumps(result, sort_keys=4, indent=4))
         if result['tracks']['total'] != 0:
             if result['tracks']['items'][0]['uri'] not in remove_track_id:
@@ -125,7 +139,7 @@ def update_log(text):
     
     
 print('Running autoplaylist.py')
-playlist_id = '6bgghJZjZNNNhyIMPy1mD6'
+playlist_id = os.environ.get('PLAYLIST_ID')
 print('Authenticating Spotify credentials ...') 
 spotifyObject = spotipy.Spotify(auth_manager=authorize())
 print('Updating playlist')
